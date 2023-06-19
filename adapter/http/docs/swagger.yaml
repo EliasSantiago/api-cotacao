@@ -1,0 +1,99 @@
+basePath: /
+definitions:
+  domain.Quote:
+    properties:
+      deadline:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      service:
+        type: string
+    type: object
+  dto.CreateQuoteRequest:
+    properties:
+      deadline:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      service:
+        type: string
+    required:
+    - deadline
+    - name
+    - price
+    - service
+    type: object
+  dto.CreateQuoteResponse:
+    properties:
+      deadline:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      service:
+        type: string
+    type: object
+host: localhost:3001
+info:
+  contact:
+    name: Elias Fonseca
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Api Cotação
+  version: 1.0.0
+paths:
+  /metrics:
+    get:
+      consumes:
+      - application/json
+      description: Metrics quote
+      parameters:
+      - description: quote
+        in: body
+        name: quote
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateQuoteResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Quote'
+      summary: Metrics
+      tags:
+      - metrics
+  /quote:
+    post:
+      consumes:
+      - application/json
+      description: Create new quote
+      parameters:
+      - description: quote
+        in: body
+        name: quote
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateQuoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Quote'
+      summary: Create new quote
+      tags:
+      - quote
+swagger: "2.0"

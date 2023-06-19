@@ -1,0 +1,6 @@
+.idea
+.build-cache
+.DS_Store
+.vscode/*.log
+__debug_bin
+config.json

@@ -1,0 +1,151 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Api Cotação",
+        "contact": {
+            "name": "Elias Fonseca"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost:3001",
+    "basePath": "/",
+    "paths": {
+        "/metrics": {
+            "get": {
+                "description": "Metrics quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metrics"
+                ],
+                "summary": "Metrics",
+                "parameters": [
+                    {
+                        "description": "quote",
+                        "name": "quote",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateQuoteResponse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Quote"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote": {
+            "post": {
+                "description": "Create new quote",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quote"
+                ],
+                "summary": "Create new quote",
+                "parameters": [
+                    {
+                        "description": "quote",
+                        "name": "quote",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateQuoteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Quote"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Quote": {
+            "type": "object",
+            "properties": {
+                "deadline": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateQuoteRequest": {
+            "type": "object",
+            "required": [
+                "deadline",
+                "name",
+                "price",
+                "service"
+            ],
+            "properties": {
+                "deadline": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateQuoteResponse": {
+            "type": "object",
+            "properties": {
+                "deadline": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
