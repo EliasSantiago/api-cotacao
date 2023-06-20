@@ -20,11 +20,11 @@ type QuoteService interface {
 }
 
 type QuoteUseCase interface {
-	Create(quoteRequest *dto.CreateQuoteRequest) error
+	Create(quoteRequest *dto.QuoteRequest) (*Quote, error)
 	Metrics(metricsRequest *dto.MetricsRequestParms) (*MetricsResponse, error)
 }
 
 type QuoteRepository interface {
-	Create(quoteRequest *dto.CreateQuoteStore) error
+	Create(quoteRequest *dto.QuoteStore) (*Quote, error)
 	Metrics(metricsRequest *dto.MetricsRequestParms) (*MetricsResponse, error)
 }

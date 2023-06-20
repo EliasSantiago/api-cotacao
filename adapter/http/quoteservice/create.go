@@ -1,6 +1,7 @@
 package quoteservice
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/EliasSantiago/api-cotacao/adapter/http/errors"
@@ -14,7 +15,7 @@ import (
 // @Produce  json
 // @Param quote body dto.CreateQuoteRequest true "quote"
 // @Success 200 {object} domain.Quote
-// @Router /quote [post]
+// @Router /quote [post]8
 func (service service) Create(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 	quoteRequest, err := dto.FromJSONCreateQuoteRequest(request.Body)
@@ -22,10 +23,13 @@ func (service service) Create(response http.ResponseWriter, request *http.Reques
 		errors.InvalidParameters()
 		return
 	}
-	err = service.usecase.Create(quoteRequest)
+
+	quote, err := service.usecase.Create(quoteRequest)
 	if err != nil {
 		response.WriteHeader(500)
 		response.Write([]byte(err.Error()))
 		return
 	}
+	response.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(response).Encode(quote)
 }

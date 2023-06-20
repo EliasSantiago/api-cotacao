@@ -7,7 +7,7 @@ import (
 	"github.com/EliasSantiago/api-cotacao/core/dto"
 )
 
-func (repository repository) Create(quoteRequest *dto.CreateQuoteStore) error {
+func (repository repository) Create(quoteRequest *dto.QuoteStore) (*domain.Quote, error) {
 	ctx := context.Background()
 	quote := domain.Quote{}
 	err := repository.db.QueryRow(
@@ -26,7 +26,7 @@ func (repository repository) Create(quoteRequest *dto.CreateQuoteStore) error {
 		&quote.Price,
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return &quote, nil
 }
