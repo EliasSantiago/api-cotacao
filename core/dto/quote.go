@@ -16,35 +16,35 @@ type QuoteRequest struct {
 }
 
 type Shipper struct {
-	RegisteredNumber string `json:"registered_number"`
-	Token            string `json:"token"`
-	PlatformCode     string `json:"platform_code"`
+	RegisteredNumber string `json:"registered_number" validate:"required`
+	Token            string `json:"token" validate:"required`
+	PlatformCode     string `json:"platform_code" validate:"required`
 }
 
 type Recipient struct {
-	Type             int    `json:"type"`
-	RegisteredNumber string `json:"registered_number"`
-	StateInscription string `json:"state_inscription"`
-	Country          string `json:"country"`
-	Zipcode          int64  `json:"zipcode"`
+	Type             int    `json:"type" validate:"required`
+	RegisteredNumber string `json:"registered_number" validate:"required`
+	StateInscription string `json:"state_inscription" validate:"required`
+	Country          string `json:"country" validate:"required`
+	Zipcode          int64  `json:"zipcode" validate:"required`
 }
 
 type Dispatcher struct {
-	RegisteredNumber string   `json:"registered_number"`
-	Zipcode          int64    `json:"zipcode"`
-	TotalPrice       float64  `json:"total_price"`
-	Volumes          []Volume `json:"volumes"`
+	RegisteredNumber string   `json:"registered_number" validate:"required`
+	Zipcode          int64    `json:"zipcode" validate:"required`
+	TotalPrice       float64  `json:"total_price" validate:"required`
+	Volumes          []Volume `json:"volumes" validate:"required,dive,required`
 }
 
 type Volume struct {
-	Category      string  `json:"category"`
-	Amount        int64   `json:"amount"`
-	UnitaryWeight float64 `json:"unitary_weight"`
-	Sku           string  `json:"sku"`
-	Height        float64 `json:"height"`
-	Width         float64 `json:"width"`
-	Length        float64 `json:"length"`
-	UnitaryPrice  float64 `json:"unitary_price"`
+	Category      string  `json:"category" validate:"required`
+	Amount        int64   `json:"amount" validate:"required`
+	UnitaryWeight float64 `json:"unitary_weight" validate:"required`
+	Sku           string  `json:"sku" validate:"required`
+	Height        float64 `json:"height" validate:"required`
+	Width         float64 `json:"width" validate:"required`
+	Length        float64 `json:"length" validate:"required`
+	UnitaryPrice  float64 `json:"unitary_price" validate:"required`
 }
 
 type DispatchersResponse struct {

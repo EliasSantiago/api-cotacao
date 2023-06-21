@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/EliasSantiago/api-cotacao/adapter/http/errors"
 	"github.com/EliasSantiago/api-cotacao/core/dto"
 )
+
+type ErrorResponse struct {
+	Message string `json:"message"`
+}
 
 // @Summary Create new quote
 // @Description Create new quote
@@ -20,14 +23,21 @@ func (service service) Create(response http.ResponseWriter, request *http.Reques
 	defer request.Body.Close()
 	quoteRequest, err := dto.FromJSONCreateQuoteRequest(request.Body)
 	if err != nil {
-		errors.InvalidParameters()
+		errResponse := ErrorResponse{
+			Message: err.Error(),
+		}
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(errResponse)
 		return
 	}
 
 	quote, err := service.usecase.Create(quoteRequest)
 	if err != nil {
-		response.WriteHeader(500)
-		response.Write([]byte(err.Error()))
+		errResponse := ErrorResponse{
+			Message: err.Error(),
+		}
+		response.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(response).Encode(errResponse)
 		return
 	}
 	response.Header().Set("Content-Type", "application/json")
