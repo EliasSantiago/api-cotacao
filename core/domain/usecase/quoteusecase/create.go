@@ -32,6 +32,9 @@ func (usecase usecase) Create(quoteRequest *dto.QuoteRequest) (*domain.Quote, er
 		return nil, err
 	}
 
+	//Visto que a api não está retornando os valores esperados conforme a documentação(não descobri a causa), eu estou criando
+	// dados fake abaixo para salva no banco.
+
 	uuid := uuid.New()
 	rand.Seed(time.Now().UnixNano())
 	store := &dto.QuoteStore{
