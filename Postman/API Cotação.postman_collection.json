@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"shipper\": {\n        \"registered_number\": \"25438296000158\",\n        \"token\": \"1d52a9b6b78cf07b08586152459a5c90\",\n        \"platform_code\": \"5AKVkHqCn\"\n    },\n    \"recipient\": {\n        \"type\": 1,\n        \"registered_number\": \"25438296000158\",\n        \"state_inscription\": \"\",\n        \"country\": \"BRA\",\n        \"zipcode\": 72220080\n    },\n    \"dispatchers\": [\n    {\n        \"registered_number\": \"25438296000158\",\n        \"zipcode\": 71931540,\n        \"total_price\": 0.0,\n        \"volumes\":[\n            {\n                \"category\":\"7\",\n                \"amount\":1,\n                \"unitary_weight\":5,\n                \"sku\":\"abc-teste-123\",\n                \"height\":0.2,\n                \"width\":0.2,\n                \"length\":0.2,\n                \"unitary_price\": 10.0\n            },\n            {\n                \"category\":\"7\",\n                \"amount\":2,\n                \"unitary_weight\":4,\n                \"sku\":\"abc-teste-527\",\n                \"height\":0.4,\n                \"width\":0.6,\n                \"length\":0.15,\n                \"unitary_price\": 20.0\n            }\n        ]\n    }],\n    \"simulation_type\": [1]\n}",
+					"raw": "{\n    \"shipper\": {\n        \"registered_number\": \"25438296000158\",\n        \"token\": \"1d52a9b6b78cf07b08586152459a5c90\",\n        \"platform_code\": \"5AKVkHqCn\"\n    },\n    \"recipient\": {\n        \"type\": 1,\n        \"registered_number\": \"25438296000158\",\n        \"state_inscription\": \"\",\n        \"country\": \"BRA\",\n        \"zipcode\": 1311000\n    },\n    \"dispatchers\": [\n    {\n        \"registered_number\": \"25438296000158\",\n        \"zipcode\": 29161376,\n        \"volumes\":[\n            {\n                \"category\":\"99\",\n                \"amount\":1,\n                \"unitary_weight\":0.5,\n                \"sku\":\"abc-teste-123\",\n                \"height\":0.2,\n                \"width\":0.2,\n                \"length\":0.2,\n                \"unitary_price\": 10.0\n            },\n            {\n                \"category\":\"99\",\n                \"amount\":2,\n                \"unitary_weight\":0.4,\n                \"sku\":\"abc-teste-527\",\n                \"height\":0.4,\n                \"width\":0.6,\n                \"length\":0.15,\n                \"unitary_price\": 20.0\n            }\n        ]\n    }],\n    \"simulation_type\": [0]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -45,7 +45,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"shipper\": {\n        \"registered_number\": \"25438296000158\",\n        \"token\": \"1d52a9b6b78cf07b08586152459a5c90\",\n        \"platform_code\": \"5AKVkHqCn\"\n    },\n    \"recipient\": {\n        \"type\": 0,\n        \"registered_number\": \"25438296000158\",\n        \"state_inscription\": \"\",\n        \"country\": \"BRA\",\n        \"zipcode\": 72220080\n    },\n    \"dispatchers\": [\n    {\n        \"registered_number\": \"25438296000158\",\n        \"zipcode\": 71931540,\n        \"total_price\": 0.0,\n        \"volumes\":[\n            {\n                \"category\":\"7\",\n                \"amount\":1,\n                \"unitary_weight\":5,\n                \"sku\":\"abc-teste-123\",\n                \"height\":0.2,\n                \"width\":0.2,\n                \"length\":0.2,\n                \"unitary_price\": 10.0\n            },\n            {\n                \"category\":\"7\",\n                \"amount\":2,\n                \"unitary_weight\":4,\n                \"sku\":\"abc-teste-527\",\n                \"height\":0.4,\n                \"width\":0.6,\n                \"length\":0.15,\n                \"unitary_price\": 20.0\n            }\n        ]\n    }],\n    \"simulation_type\": [1]\n}",
+					"raw": "{\n    \"recipient\": {\n        \"type\": 1,\n        \"registered_number\": \"25438296000158\",\n        \"state_inscription\": \"\",\n        \"country\": \"BRA\",\n        \"zipcode\": 1311000\n    },\n    \"dispatchers\": [\n    {\n        \"registered_number\": \"25438296000158\",\n        \"zipcode\": 29161376,\n        \"volumes\":[\n            {\n                \"category\":\"99\",\n                \"amount\":1,\n                \"unitary_weight\":0.5,\n                \"sku\":\"abc-teste-123\",\n                \"height\":0.2,\n                \"width\":0.2,\n                \"length\":0.2,\n                \"unitary_price\": 10.0\n            },\n            {\n                \"category\":\"99\",\n                \"amount\":2,\n                \"unitary_weight\":0.4,\n                \"sku\":\"abc-teste-527\",\n                \"height\":0.4,\n                \"width\":0.6,\n                \"length\":0.15,\n                \"unitary_price\": 20.0\n            }\n        ]\n    }],\n    \"simulation_type\": [0]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -71,7 +71,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8081/metrics",
+					"raw": "localhost:8081/metrics?last_quotes=4",
 					"host": [
 						"localhost"
 					],
@@ -82,8 +82,7 @@
 					"query": [
 						{
 							"key": "last_quotes",
-							"value": "2",
-							"disabled": true
+							"value": "4"
 						}
 					]
 				}
@@ -108,11 +107,11 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3001/check",
+					"raw": "localhost:8081/check",
 					"host": [
 						"localhost"
 					],
-					"port": "3001",
+					"port": "8081",
 					"path": [
 						"check"
 					]

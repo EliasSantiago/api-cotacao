@@ -3,6 +3,7 @@ package quoterepository
 import (
 	"context"
 	"fmt"
+	"math"
 
 	"github.com/EliasSantiago/api-cotacao/core/domain"
 	"github.com/EliasSantiago/api-cotacao/core/dto"
@@ -12,7 +13,13 @@ func (repository repository) Metrics(params *dto.MetricsRequestParms) (*domain.M
 	ctx := context.Background()
 	quotes := []domain.Quote{}
 
-	rows, err := repository.db.Query(ctx, `SELECT * FROM quotes`)
+	query := "SELECT * FROM quotes"
+
+	if params.LastQuotes > 0 {
+		query += fmt.Sprintf(" LIMIT %d", params.LastQuotes)
+	}
+
+	rows, err := repository.db.Query(ctx, query)
 
 	if err != nil {
 		fmt.Println("Erro ao executar a consulta:", err)
@@ -38,8 +45,14 @@ func (repository repository) Metrics(params *dto.MetricsRequestParms) (*domain.M
 
 	countByNames := make(map[string]int64)
 	totalPriceByNames := make(map[string]float64)
-	minPrice := quotes[0].Price
-	maxPrice := quotes[0].Price
+
+	minPrice := math.Inf(1)
+	maxPrice := math.Inf(-1)
+
+	if len(quotes) > 0 {
+		minPrice = quotes[0].Price
+		maxPrice = quotes[0].Price
+	}
 
 	for _, q := range quotes {
 		countByNames[q.Name]++
