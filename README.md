@@ -16,8 +16,7 @@ App use Golang, Postgres
   },
   "server": {
     "port": "8081"
-  },
-  "secret_key": "HsZwxbcwuK/yZBbNeUjTAA=="
+  }
 }
 
 To get the database ip, use...

@@ -47,20 +47,63 @@ type Volume struct {
 	UnitaryPrice  float64 `json:"unitary_price" validate:"required`
 }
 
-type DispatchersResponse struct {
-	ID                         string `json:"id"`
-	RequestID                  string `json:"request_id"`
-	RegisteredNumberShipper    string `json:"registered_number_shipper"`
-	RegisteredNumberDispatcher string `json:"registered_number_dispatcher"`
-	ZipcodeOrigin              string `json:"zipcode_origin"`
-}
-
 type QuoteStore struct {
 	ID       string  `db:"id"`
 	Name     string  `db:"name"`
 	Service  string  `db:"service"`
-	Deadline string  `db:"deadline"`
+	Deadline int     `db:"deadline"`
 	Price    float64 `db:"price"`
+}
+
+type DispatchersResponse struct {
+	Dispatchers []DispatcherResponse `json:"dispatchers"`
+}
+
+type DispatcherResponse struct {
+	ID                         string          `json:"id"`
+	RequestID                  string          `json:"request_id"`
+	RegisteredNumberShipper    string          `json:"registered_number_shipper"`
+	RegisteredNumberDispatcher string          `json:"registered_number_dispatcher"`
+	ZipcodeOrigin              int64           `json:"zipcode_origin"`
+	Offers                     []OfferResponse `json:"offers"`
+}
+
+type OfferResponse struct {
+	Offer                int                  `json:"offer"`
+	TableReference       string               `json:"table_reference"`
+	SimulationType       int64                `json:"simulation_type"`
+	Carrier              CarrierResponse      `json:"carrier"`
+	Service              string               `json:"service"`
+	ServiceCode          string               `json:"service_code"`
+	ServiceDescription   string               `json:"service_description"`
+	DeliveryTime         DeliveryTimeResponse `json:"delivery_time"`
+	Expiration           string               `json:"expiration"`
+	CostPrice            float64              `json:"cost_price"`
+	FinalPrice           float64              `json:"final_price"`
+	Weights              WeightsResponse      `json:"weights"`
+	OriginalDeliveryTime DeliveryTimeResponse `json:"original_delivery_time"`
+}
+
+type CarrierResponse struct {
+	Name             string `json:"name"`
+	RegisteredNumber string `json:"registered_number"`
+	StateInscription string `json:"state_inscription"`
+	Logo             string `json:"logo"`
+	Reference        int    `json:"reference"`
+	CompanyName      string `json:"company_name"`
+}
+
+type DeliveryTimeResponse struct {
+	Days          int    `json:"days"`
+	Hours         int    `json:"hours,omitempty"`
+	Minutes       int    `json:"minutes,omitempty"`
+	EstimatedDate string `json:"estimated_date"`
+}
+
+type WeightsResponse struct {
+	Real  float64 `json:"real"`
+	Cubed float64 `json:"cubed,omitempty"`
+	Used  float64 `json:"used"`
 }
 
 func FromJSONCreateQuoteRequest(body io.Reader) (*QuoteRequest, error) {

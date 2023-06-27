@@ -4,17 +4,21 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/EliasSantiago/api-cotacao/core/domain"
 	"github.com/EliasSantiago/api-cotacao/core/dto"
 	"github.com/google/uuid"
+	"github.com/spf13/viper"
 )
 
-func (usecase usecase) Create(quoteRequest *dto.QuoteRequest) (*domain.Quote, error) {
+func (usecase usecase) Create(quoteRequest *dto.QuoteRequest) (*domain.OffersResponse, error) {
+
+	quoteRequest.Shipper.RegisteredNumber = viper.GetString("shipper.registered_number")
+	quoteRequest.Shipper.Token = viper.GetString("shipper.token")
+	quoteRequest.Shipper.PlatformCode = viper.GetString("shipper.platform_code")
+
 	payload, err := json.Marshal(quoteRequest)
 	if err != nil {
 		return nil, err
@@ -32,22 +36,35 @@ func (usecase usecase) Create(quoteRequest *dto.QuoteRequest) (*domain.Quote, er
 		return nil, err
 	}
 
-	//Visto que a api não está retornando os valores esperados conforme a documentação(não descobri a causa), eu estou criando
-	// dados fake abaixo para salva no banco.
+	var offers []domain.QuoteResponse
+	for _, dispatcher := range quoteResponse.Dispatchers {
+		for _, offer := range dispatcher.Offers {
+			uuid := uuid.New()
+			store := &dto.QuoteStore{
+				ID:       strings.Replace(uuid.String(), "-", "", -1),
+				Name:     offer.Carrier.Name,
+				Service:  offer.Service,
+				Deadline: offer.DeliveryTime.Days,
+				Price:    offer.FinalPrice,
+			}
+			_, err := usecase.repository.Create(store)
+			if err != nil {
+				return nil, err
+			}
 
-	uuid := uuid.New()
-	rand.Seed(time.Now().UnixNano())
-	store := &dto.QuoteStore{
-		ID:       strings.Replace(uuid.String(), "-", "", -1),
-		Name:     "EXPRESSO FR",
-		Service:  "Rodoviário",
-		Deadline: "3",
-		Price:    rand.Float64(),
+			quoteResponse := domain.QuoteResponse{
+				Name:     offer.Carrier.Name,
+				Service:  offer.Service,
+				Deadline: offer.DeliveryTime.Days,
+				Price:    offer.FinalPrice,
+			}
+
+			offers = append(offers, quoteResponse)
+		}
+	}
+	response := &domain.OffersResponse{
+		Offers: offers,
 	}
 
-	quote, err := usecase.repository.Create(store)
-	if err != nil {
-		return nil, err
-	}
-	return quote, nil
+	return response, nil
 }
